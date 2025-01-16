@@ -1,0 +1,3 @@
+cot_generation:
+  few_shot_samples_ids: ["f67ebf32de48c788dfbb", "3ca5966b88394e62271e", "85ed1db2e2c89f3b93ed", 5858ad50cf60b252c7e7", "e44e24c2c3b8599b85ad", "e0a9f1ef5fae44427b26"]
+  strategyqa_file: "/path/to/strategyqa.json"

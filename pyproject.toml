@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "reps"
+version = "0.1.0"
+description = "rationale-aware verifier by pairwise self-evaluation"
+authors = ["Akira Kawabata <kwbt0206@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+torch = {version = "2.1.2", source = "torch-cu121"}
+vllm = "^0.3.0"
+transformers = "^4.38.2"
+datasets = "2.19.0"
+accelerate = "^0.27.0"
+trl = "^0.9.2"
+pyyaml = "^6.0.1"
+typing-extensions = "^4.9.0"
+tqdm = "^4.66.0"
+numpy = "<2.0"
+
+[[tool.poetry.source]]
+name = "torch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

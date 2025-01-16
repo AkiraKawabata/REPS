@@ -1,0 +1,2 @@
+cot_generation:
+  few_shot_samples_ids: ["Mercury_SC_415702", "MCAS_2009_5_6516", "ACTAAP_2013_5_11", "MCAS_1998_4_3"]
