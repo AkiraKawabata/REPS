@@ -1,5 +1,3 @@
-# src/eval.py
-
 import argparse
 import torch
 from dataclasses import dataclass
@@ -8,7 +6,6 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 
-# Adjust import if needed based on your project structure
 from utils.io import load_jsonl
 
 

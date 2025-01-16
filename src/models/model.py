@@ -23,11 +23,9 @@ class GenerationModel:
         self.dataset_name = dataset_name
         self.cache_dir = cache_dir
 
-        # Dataset Enum 化を試みる
         try:
             self.dataset = Dataset[dataset_name.upper()]
         except KeyError:
-            # Enum に該当しない場合は None として扱う
             warnings.warn(
                 f"Unsupported dataset: '{dataset_name}'. "
                 "PromptManager / dataset-specific logic may be limited."
@@ -81,10 +79,9 @@ class GenerationModel:
             List of generated responses
         """
         try:
-            # デフォルトのタスク: CoT_GENERATION
             task_enum = Task.COT_GENERATION if task is None else Task[task.upper()]
 
-            # 問題・選択肢などを使って prompt を組み立てる
+            # Generate prompts
             prompts = []
             for _ in range(num_iterations):
                 format_args = {"question": question}
@@ -93,9 +90,6 @@ class GenerationModel:
                 if passage:
                     format_args["passage"] = passage
 
-                # dataset が None の場合、prompt_manager における dataset引数は
-                # fallbackとして何かデフォルトの Dataset.ARC とかを使うか、
-                # あるいは dataset引数自体を使わずに生成するように変更してもOK
                 if not self.dataset:
                     raise ValueError("Dataset is required for choice of prompt template.")
                 dataset_for_prompt = self.dataset
@@ -157,7 +151,6 @@ class GenerationModel:
             batch = prompts[i : i + batch_size]
             outputs = self.llm.generate(batch, self.sampling_params)
             responses = [output.outputs[0].text for output in outputs]
-            # breakpoint()
             parsed_responses = [self._parse_text(r) for r in responses]
             all_responses.extend(parsed_responses)
 
@@ -184,7 +177,6 @@ class GenerationModel:
             batch = prompts[i : i + batch_size]
             outputs = self.llm.generate(batch, self.sampling_params)
             responses = [output.outputs[0].text for output in outputs]
-            # breakpoint()
             parsed_responses = [self._parse_eval_text(r) for r in responses]
             all_responses.extend(parsed_responses)
 
@@ -211,12 +203,11 @@ class GenerationModel:
         return {"explanation": explanation, "answer": answer}
     
     def _parse_eval_text(self, text: str) -> Dict[str, str]:
-        """ 空白行で区切って最初の部分を返す """
+        """ Parse generated text by splitting at the first newline character """
         explanation = text.split("\n")[0].strip()
         return {"eval_result": explanation}
 
     def _extract_answer(self, answer_text: str) -> str:
-        """Extract the single letter or textual answer."""
         lines = [line.strip() for line in answer_text.splitlines() if line.strip()]
         if not lines:
             return ""

@@ -1,5 +1,3 @@
-# src/cot_generation.py
-
 from typing import List, Dict, Optional
 import argparse
 import json
